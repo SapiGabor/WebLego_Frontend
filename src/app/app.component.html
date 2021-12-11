@@ -1,5 +1,5 @@
 <div class="navbar navbar-expand-md navbar-dark bg-dark mb-4" role="navigation">
-  <a class="navbar-brand" href="#">Lego valami</a>
+  <a class="navbar-brand" href="#">Lego</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
     aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -24,9 +24,6 @@
       <div *ngFor="let lego of legos" class="product-content product-wrap clearfix">
         <div class="row">
           <div class="col-md-5 col-sm-12 col-xs-12">
-            <div class="product-image">
-              <img src="https://via.placeholder.com/194x228/87CEFA" alt="194x228" class="img-responsive">
-            </div>
           </div>
           <div class="col-md-7 col-sm-12 col-xs-12">
             <div class="product-deatil">
@@ -48,10 +45,11 @@
             <div class="product-info smart-form">
               <div class="row">
                 <div class="float-right btn-group btn-group-sm">
-                  <a href="#" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip"
+                  <a href="#" (click)="onOpenModal(lego, 'edit')" class="btn btn-primary tooltips" data-placement="top" data-toggle="tooltip"
                     data-original-title="Edit"><i class="fa fa-pencil"></i> </a>
-                  <a href="#" (click) = "onOpenModal(lego, 'delete')" class="btn btn-secondary tooltips" data-placement="top" data-toggle="tooltip"
-                    data-original-title="Delete"><i class="fa fa-times"></i></a>
+                  <a href="#" (click)="onOpenModal(lego, 'delete')" class="btn btn-secondary tooltips"
+                    data-placement="top" data-toggle="tooltip" data-original-title="Delete"><i
+                      class="fa fa-times"></i></a>
                 </div>
               </div>
             </div>
@@ -59,7 +57,7 @@
         </div>
       </div>
     </div>
-    <!--<div class="modal fade" id="addLegoModal" tabindex="-1" role="dialog" aria-labelledby="addLegoModalLabel"
+    <div class="modal fade" id="addLegoModal" tabindex="-1" role="dialog" aria-labelledby="addLegoModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -100,7 +98,8 @@
                 <input type="text" ngModel name="recommendedAge" class="form-control" id="recommendedAge"
                   placeholder="Ajánlott kor" required>
                 <div class="modal-footer">
-                  <button type="button" id="add-book-form" class="btn btn-secondary" data-dismiss="modal">Bezárás</button>
+                  <button type="button" id="add-book-form" class="btn btn-secondary"
+                    data-dismiss="modal">Bezárás</button>
                   <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary">Lego hozzáadása</button>
                 </div>
               </div>
@@ -109,10 +108,65 @@
         </div>
       </div>
     </div>
-  -->
+
+    <div class="modal fade" id="updateLegoModal" tabindex="-1" role="dialog" aria-labelledby="legoEditModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="updateLegoModalLabel">Lego szerkesztése {{editLego?.name}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form #editForm="ngForm" (ngSubmit)="onUpdateLego(editLego)">
+              <div class="form-group">
+                <label for="name">Név</label>
+                <input type="text" ngModel="{{editLego?.name}}" name="name" class="form-control" id="name"
+                  placeholder="Név">
+              </div>
+              <div class="form-group">
+                <label for="pieces">Darabszám</label>
+                <input type="number" ngModel="{{editLego?.pieces}}" name="pieces" class="form-control" id="pieces"
+                  placeholder="Darabszám">
+              </div>
+              <div class="form-group">
+                <label for="type">Készlet típus</label>
+                <input type="text" ngModel="{{editLego?.type}}" name="type" class="form-control" id="type"
+                  placeholder="Készlet típusa">
+              </div>
+              <div class="form-group">
+                <label for="setNumber">Készlet száma</label>
+                <input type="number" ngModel="{{editLego?.setNumber}}" name="setNumber" class="form-control" id="setNumber"
+                  placeholder="Készlet száma">
+              </div>
+              <div class="form-group">
+                <label for="price">Készlet ára</label>
+                <input type="number" ngModel="{{editLego?.price}}" name="price" class="form-control" id="price"
+                  placeholder="Ár (Ft)">
+              </div>
+              <div class="form-group">
+                <label for="recommendedAge">Ajánlott kor</label>
+                <input type="text" ngModel="{{editLego?.recommendedAge}}" name="recommendedAge" class="form-control"
+                  id="recommendedAge" placeholder="Ajánlott kor">
+              </div>
+
+              <input type="hidden" ngModel="{{editLego?.id}}" name="id" class="form-control" id="id">
+
+              <div class="modal-footer">
+                <button type="button" id="" data-dismiss="modal" class="btn btn-secondary">Close</button>
+                <button (click)="onUpdateLego(editForm.value)" data-dismiss="modal" class="btn btn-primary">Módosítások
+                  mentése</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
-  <div class="modal fade" id="deleteLegoModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+    <div class="modal fade" id="deleteLegoModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
       aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
